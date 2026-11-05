@@ -1,0 +1,238 @@
+:host {
+  --bg: #ffffff;
+  --border: #dadce0;
+  --text: #202124;
+  --muted: #70757a;
+  --fn-bg: #dee5f5;
+  --fn-hover: #d2dbf0;
+  --num-bg: #f1f3f4;
+  --num-hover: #e4e6e8;
+  --eq-bg: #3b6fe8;
+  --eq-hover: #2f5fd4;
+  --accent: #1a5fd6;
+
+  display: block;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg: #202124;
+    --border: #5f6368;
+    --text: #e8eaed;
+    --muted: #9aa0a6;
+    --fn-bg: #3c4043;
+    --fn-hover: #474b4f;
+    --num-bg: #2d2f31;
+    --num-hover: #383a3c;
+    --eq-bg: #8ab4f8;
+    --eq-hover: #a3c3fa;
+    --accent: #8ab4f8;
+  }
+}
+
+.calc {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: Roboto, Arial, system-ui, sans-serif;
+}
+
+/* ---------- Screen ---------- */
+.screen {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px 6px;
+  margin-bottom: 8px;
+  min-height: 64px;
+}
+
+.history-toggle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.history-toggle:hover {
+  background: var(--num-bg);
+}
+
+.subline {
+  min-height: 18px;
+  padding-left: 32px;
+  text-align: right;
+  font-size: 14px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.display {
+  display: block;
+  text-align: right;
+  font-size: 30px;
+  line-height: 40px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.history {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 4px 0 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+}
+
+.history button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.history button:hover {
+  background: var(--num-bg);
+}
+
+.h-expr {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.h-result {
+  font-weight: 500;
+}
+
+.h-empty {
+  padding: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- Keypad ---------- */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.key {
+  height: 36px;
+  border: 0;
+  border-radius: 18px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.15s;
+  user-select: none;
+}
+
+.key.fn {
+  background: var(--fn-bg);
+}
+.key.fn:hover {
+  background: var(--fn-hover);
+}
+
+.key.num {
+  background: var(--num-bg);
+  font-size: 16px;
+}
+.key.num:hover {
+  background: var(--num-hover);
+}
+
+.key.eq {
+  background: var(--eq-bg);
+  color: var(--bg);
+  font-size: 18px;
+}
+.key.eq:hover {
+  background: var(--eq-hover);
+}
+
+.key.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.key:focus-visible,
+.mode button:focus-visible,
+.history-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Deg | Rad pill spans two columns */
+.mode {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.mode button {
+  flex: 1;
+  height: 100%;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mode button.active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.mode .divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+}
+
+@media (max-width: 420px) {
+  .keypad {
+    gap: 5px;
+  }
+  .key,
+  .mode button {
+    font-size: 12px;
+  }
+}

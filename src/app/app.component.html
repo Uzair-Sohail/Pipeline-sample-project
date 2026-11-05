@@ -1,0 +1,74 @@
+<main class="calc">
+  <section class="screen" data-testid="screen">
+    <button
+      type="button"
+      class="history-toggle"
+      data-testid="btn-history"
+      aria-label="History"
+      [attr.aria-expanded]="showHistory()"
+      (click)="toggleHistory()"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 2.05 4.95l-1.42 1.42A9 9 0 1 0 13 3zm-1 5v5l4.25 2.52.77-1.28-3.52-2.09V8z"
+        />
+      </svg>
+    </button>
+
+    <div class="subline" data-testid="subline">{{ subline() }}</div>
+    <output class="display" data-testid="display" aria-live="polite">{{ display() }}</output>
+
+    @if (showHistory()) {
+      <ul class="history" data-testid="history">
+        @for (entry of history(); track $index) {
+          <li>
+            <button type="button" (click)="restore(entry)">
+              <span class="h-expr">{{ entry.expression }} =</span>
+              <span class="h-result">{{ entry.result }}</span>
+            </button>
+          </li>
+        } @empty {
+          <li class="h-empty">Your calculations will appear here</li>
+        }
+      </ul>
+    }
+  </section>
+
+  <div class="keypad">
+    <div class="key fn mode" role="group" aria-label="Angle unit">
+      <button
+        type="button"
+        data-testid="key-deg"
+        [class.active]="angleMode() === 'deg'"
+        [attr.aria-pressed]="angleMode() === 'deg'"
+        (click)="setAngleMode('deg')"
+      >
+        Deg
+      </button>
+      <span class="divider" aria-hidden="true"></span>
+      <button
+        type="button"
+        data-testid="key-rad"
+        [class.active]="angleMode() === 'rad'"
+        [attr.aria-pressed]="angleMode() === 'rad'"
+        (click)="setAngleMode('rad')"
+      >
+        Rad
+      </button>
+    </div>
+
+    @for (key of keys; track key.id) {
+      <button
+        type="button"
+        [class]="'key ' + key.style"
+        [class.active]="key.id === 'inv' && inverse()"
+        [attr.data-testid]="'key-' + key.id"
+        [attr.aria-pressed]="key.id === 'inv' ? inverse() : null"
+        (click)="press(key.id)"
+      >
+        {{ labelFor(key) }}
+      </button>
+    }
+  </div>
+</main>
